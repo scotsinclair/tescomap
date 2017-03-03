@@ -1,0 +1,172 @@
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="UTF-8">
+		<title> Crime Map</title>
+		<style>
+		      #map {
+						height: 750px;
+						width: 100%;
+					}
+		    </style>
+	</head>
+
+  <body>
+	  <div id="map"></div>
+    <script>
+        function initMap() {
+            // g-maps example of how to pass co-ords to the map:
+            //var uluru = {lat: -25.363, lng: 131.044};
+						//****************
+						//declare variables and init the map
+						//****************
+            var centre = {lat: 51.503252379373, lng: -0.15096458812555};
+            var map = new google.maps.Map(document.getElementById('map'), {zoom: 14, center: centre});
+						var neighbourhoodID = [];
+						var plottedNeighbourhoods = [];
+						var polygons = [];
+						var heatmapData = [];
+						var centremarker = new google.maps.Marker({
+							position: centre,
+							map: map,
+							title: 'Centre'
+							});
+						var heatmap = new google.maps.visualization.HeatmapLayer({
+							data: heatmapData,
+							//dissipating: false,
+							//map: map
+							});
+						//***************
+						//create a listeners to respond to movements
+						//***************
+						//respond to mouse drag ending
+					 	google.maps.event.addListener(map, 'dragend', function() {
+							document.getElementById('centre').innerHTML= "Centre: " + map.getCenter().toString();
+						 	document.getElementById('bounds').innerHTML= "Bounds: " + map.getBounds().toString();
+						 	drawBoarder();
+							drawCrimes();
+					 });
+					 //respond to zoom changes
+					 google.maps.event.addListener(map, 'zoom_changed', function() {
+						 document.getElementById('zoom').innerHTML= "Zoom: " + map.getZoom().toString();
+					});
+					 //respond to change of bounds, triggers many times for every movement, use only if you
+					 //need live updates such as the centre marker moving with the map
+					 google.maps.event.addListener(map, 'bounds_changed', function() {
+						 centremarker.setPosition(map.getCenter());
+					 });
+					 $('#clearbutton').on('click', function(){
+						 clearMarkers();
+					 });
+					 $('#deletebutton').on('click', function(){
+						 deleteMarkers();
+					 });
+					 $('#showbutton').on('click', function(){
+						 showMarkers();
+					 });
+					 function drawBoarder(){
+						 	var centreCoord = map.getCenter();
+						 	var lat1 = centreCoord.lat();
+						 	var lng1 = centreCoord.lng();
+						// sent request to the server to find the ID of the neighbourhood at the centre of the map
+					 	$.ajax({url: 'https://data.police.uk/api/locate-neighbourhood?q=' + lat1 + ',' + lng1, dataType: 'json', success: function(data) {
+							// now check the array of neighbourhoods to see if it has been drawn before
+							if (neighbourhoodID.includes(data.neighbourhood)===false){
+								// if not in array, first add it to the array
+								neighbourhoodID.push(data.neighbourhood);
+								//now request the boundary data from the police API.
+								$.ajax({url: 'https://data.police.uk/api/'+ data.force + '/' + data.neighbourhood + '/boundary', dataType: 'json', success: function(data1) {
+									//pass the boudary to the placePoly function to draw it to the map
+									placePoly(data1);
+								 }
+							 });
+						 }
+						}
+						});
+						}
+						//function to plot the Crimes on the map
+						function drawCrimes(){
+							 	var centreCoord = map.getCenter();
+							 	var lat1 = centreCoord.lat();
+							 	var lng1 = centreCoord.lng();
+						 		// sent request to the server to get crime at the centre point
+						 		$.ajax({url: 'https://data.police.uk/api/crimes-street/all-crime?lat=' + lat1 + '&lng=' + lng1, type: 'POST', dataType: 'json', success: function(data) {
+									for (var i = 0;i<data.length;i++){
+									//console.log(data[i].location.latitude);
+									//console.log(data[i].location.longitude);
+									var latlng = new google.maps.LatLng(parseFloat(data[i].location.latitude), parseFloat(data[i].location.longitude));
+									heatmapData.push(latlng);
+									}
+									heatmap.setMap(map);
+								}
+											});
+						}
+				//function to place a ploygon on the map, requires a formatted array of coordinates
+				// should only be called from within drawBoarder()
+				function placePoly(bounds){
+					var boundary = reformat(bounds);
+					var flightPath = new google.maps.Polygon({
+					path: boundary,
+					//geodesic: true,
+					strokeColor: '#FF0000',
+					strokeOpacity: 0.8,
+					strokeWeight: 2,
+					fillOpacity: 0.0
+					});
+					polygons.push(flightPath);
+					//flightPath.setMap(map);
+					setMapOnAll(map);
+					}
+					// Sets the map on all polygons in the array.
+		      function setMapOnAll(map) {
+		        for (var i = 0; i < polygons.length; i++) {
+		          polygons[i].setMap(map);
+		        }
+		      }
+		      // Removes the polygons from the map, but keeps them in the array.
+		      function clearMarkers() {
+		        setMapOnAll(null);
+		      }
+		      // Shows any polygons currently in the array.
+		      function showMarkers() {
+		        setMapOnAll(map);
+		      }
+		      // Deletes all polygons in the array by removing references to them.
+					function deleteMarkers() {
+		        clearMarkers();
+		        polygons = [];
+						neighbourhoodID =[]
+		      }
+				}
+				// function to reformat Police API coordinates to ones google will work with.
+				function reformat(data){
+					var boundArray=[];
+					for (var i = 0;i<data.length;i++){
+						boundArray.push({lat:parseFloat(data[i]["latitude"]),lng:parseFloat(data[i]["longitude"])});
+						//console.log(boundArray[i]);
+					}
+					return boundArray;
+				}
+        // function addMarker(location, map) {
+        //     // Add the marker at the clicked location,
+        //     var marker = new google.maps.Marker({
+        //         position: location,
+        //         map: map
+        //     });
+        // }
+    </script>
+		<script src ="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap"></script> -->
+		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&libraries=visualization&callback=initMap"></script>
+
+		<input id='deletebutton' type='button' value='Delete'/>
+		<input id='clearbutton' type='button' value='Clear'/>
+		<input id='showbutton' type='button' value='Show'/>
+		<p id='centre'> </p>
+		<p id='zoom'> </p>
+		<p id='bounds'> </p>
+
+
+
+		</body>
+</html>
