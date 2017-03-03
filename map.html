@@ -12,7 +12,7 @@ width: 100%;
 </head>
 
 <body>
-<input type="text" id="postcode"  ><button onclick="reCenter()"> Search</button>
+<input type="text" id="postcode"  ><button id="postbutton"> Search</button>
 <div id="map"></div>
 <script>
 function initMap() {
@@ -21,16 +21,36 @@ function initMap() {
 //****************
 //declare variables and init the map
 //****************
+var geocoder = new google.maps.Geocoder();
+var address = "";
+var lat;
+var lng;
 var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
-//var updateCentre = new google.maps.LatLng({lat:lat, lng:lng1});
+var updateCentre;
 var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
 var centremarker = new google.maps.Marker({
 position: centre,
 map: map,
 title: 'Centre'
 });
-var geocoder = new goolge.map.Geocoder();
-var postcode = 
+document.getElementByID(postbutton).onclick = function(){
+address = document.getElementByID(postcode).value;
+//geocoder.geocode({ 'address': address }, function (results, status) {
+//if (status == google.maps.GeocoderStatus.OK) {
+//lat = results[0].geometry.location.lat();
+//lng = results[0].geometry.location.lng();
+//updateCentre = new google.maps.LatLng({lat:lat, lng:lng})	
+//}
+	
+var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
+var updateCentre = new google.maps.LatLng({lat:lat, lng:lng1});
+var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
+var centremarker = new google.maps.Marker({
+position: centre,
+map: map,
+title: 'Centre'
+});
+
 
 //***************
 //create a listeners to respond to movements
@@ -47,7 +67,7 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
 		+ lng1;
 	});
 function reCenter(){
-	document.getElementById('zoom').innerHTML= "test";
+	document.getElementById('zoom').innerHTML= address;
 }
 }
 
