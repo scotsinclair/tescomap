@@ -25,7 +25,7 @@ var geocoder = new google.maps.Geocoder();
 var address = "";
 var lat;
 var lng;
-var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
+var centre = {lat: 57.183802, lng: -2.260020};
 var updateCentre;
 var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre, mapTypeId: 'hybrid'});
 var centremarker = new google.maps.Marker({
@@ -62,9 +62,7 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
 <script async defer
 	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap">
 </script>
-<input id='deletebutton' type='button' value='Delete'/>
-<input id='clearbutton' type='button' value='Clear'/>
-<input id='showbutton' type='button' value='Show'/>
+
 <p id='centre'> </p>
 <p id='zoom'> </p>
 <p id='bounds'> </p>
