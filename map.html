@@ -27,32 +27,13 @@ var lat;
 var lng;
 var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
 var updateCentre;
-var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
+var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre, mapTypeId: 'satellite'});
 var centremarker = new google.maps.Marker({
 position: centre,
 map: map,
 title: 'Centre'
 });
-document.getElementByID("postbutton").addEventListener("click", test); 
-	
-	function test(){
-address = document.getElementByID("postcode").value;
-document.getElementById('zoom').innerHTML= address;
-//geocoder.geocode({ 'address': address }, function (results, status) {
-//if (status == google.maps.GeocoderStatus.OK) {
-//lat = results[0].geometry.location.lat();
-//lng = results[0].geometry.location.lng();
-//updateCentre = new google.maps.LatLng({lat:lat, lng:lng})	
-}
-	
-var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
-var updateCentre = new google.maps.LatLng({lat:lat, lng:lng1});
-var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
-var centremarker = new google.maps.Marker({
-position: centre,
-map: map,
-title: 'Centre'
-});
+
 
 
 //***************
