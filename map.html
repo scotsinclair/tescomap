@@ -37,7 +37,7 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
 	var center = map.getCenter();
 	var lat1 = map.getCenter().lat().toFixed(6)
 	var lng1 = map.getCenter().lng().toFixed(6)
-	var castcenter = new google.maps.LatLng(lat:lat1, lng:lng1);
+	var castcenter = new google.maps.LatLng({lat:lat1, lng:lng1});
 	centremarker.setPosition(castcenter);
 	document.getElementById('centre').innerHTML= "Centre: " + lat + ', '
 		+ lng;
