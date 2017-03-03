@@ -34,10 +34,14 @@ title: 'Centre'
 //respond to change of bounds, triggers many times for every movement, use only if you
 //need live updates such as the centre marker moving with the map
 google.maps.event.addListener(map, 'bounds_changed', function() {
-centremarker.setPosition(map.getCenter());
-document.getElementById('centre').innerHTML= "Centre: " + map.getCenter().lat().toFixed(6) + ', '
-	+ map.getCenter().lng().toFixed(6);
-});
+	var center = map.getCenter();
+	var lat = map.getCenter().lat().toFixed(6)
+	var lng = map.getCenter().lng().toFixed(6)
+	var castcenter = new google.maps.LatLng(lat:lat, lng:lng)
+	centremarker.setPosition(castcenter);
+	document.getElementById('centre').innerHTML= "Centre: " + lat + ', '
+		+ lng;
+	});
 
 }
 
