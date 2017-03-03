@@ -1,54 +1,49 @@
-	<!DOCTYPE html>
-	<html>
-	<head>
-		<meta charset="UTF-8">
-		<title> GPS map</title>
-		<style>
-		      #map {
-						height: 500px;
-						width: 100%;
-					}
-		    </style>
-	</head>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title> GPS map</title>
+<style>
+#map {
+height: 500px;
+width: 100%;
+}
+</style>
+</head>
 
-  <body>
-	  <div id="map"></div>
-    <script>
-        function initMap() {
-            // g-maps example of how to pass co-ords to the map:
-            //var uluru = {lat: -25.363, lng: 131.044};
-						//****************
-						//declare variables and init the map
-						//****************
-            var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
-            var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
-						var centremarker = new google.maps.Marker({
-							position: centre,
-							map: map,
-							title: 'Centre'
-							});
+<body>
+<div id="map"></div>
+<script>
+function initMap() {
+// g-maps example of how to pass co-ords to the map:
+//var uluru = {lat: -25.363, lng: 131.044};
+//****************
+//declare variables and init the map
+//****************
+var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
+var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
+var centremarker = new google.maps.Marker({
+position: centre,
+map: map,
+title: 'Centre'
+});
 
-	//***************
-	//create a listeners to respond to movements
-	//***************
-	 //respond to change of bounds, triggers many times for every movement, use only if you
-	 //need live updates such as the centre marker moving with the map
-	 google.maps.event.addListener(map, 'bounds_changed', function() {
-		 centremarker.setPosition(map.getCenter());
-		 document.getElementById('centre').innerHTML= "Centre: " + map.getCenter().toString();
-					 });
-					 $('#clearbutton').on('click', function(){
-						 clearMarkers();
-					 });
-					 $('#deletebutton').on('click', function(){
-						 deleteMarkers();
-					 });
-					 $('#showbutton').on('click', function(){
-						 showMarkers();
-					 });
+//***************
+//create a listeners to respond to movements
+//***************
+//respond to change of bounds, triggers many times for every movement, use only if you
+//need live updates such as the centre marker moving with the map
+google.maps.event.addListener(map, 'bounds_changed', function() {
+centremarker.setPosition(map.getCenter());
+document.getElementById('centre').innerHTML= "Centre: " + map.getCenter().toString();
+});
+$('#clearbutton').on('click', function(){
+clearMarkers();
+});
 
 </script>
-<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap">
+<script async defer
+	src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap">
 </script>
 <input id='deletebutton' type='button' value='Delete'/>
 <input id='clearbutton' type='button' value='Clear'/>
