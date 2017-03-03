@@ -12,7 +12,7 @@ width: 100%;
 </head>
 
 <body>
-	<p>Zoom and Pan to find your home. The GPS coordinates will be shown at the bottom</p>
+<p>Zoom and Pan (click and drag on the map) to find your home. The GPS coordinates will be shown at the bottom</p>
 <div id="map"></div>
 <script>
 function initMap() {
@@ -21,8 +21,6 @@ function initMap() {
 //****************
 //declare variables and init the map
 //****************
-var geocoder = new google.maps.Geocoder();
-var address = "";
 var lat;
 var lng;
 var centre = {lat: 57.183802, lng: -2.260020};
@@ -47,7 +45,7 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
 	var lng1 = map.getCenter().lng().toFixed(6)
 	var castcenter = new google.maps.LatLng({lat:parseFloat(lat1), lng:parseFloat(lng1)});
 	centremarker.setPosition(castcenter);
-	document.getElementById('centre').innerHTML= "Centre: " + lat1 + ', '
+	document.getElementById('centre').innerHTML= "GPS Co-ords at centre: " + lat1 + ', '
 		+ lng1;
 	});
 
