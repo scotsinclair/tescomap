@@ -28,14 +28,9 @@
 							title: 'Centre'
 							});
 
-		//***************
-		//create a listeners to respond to movements
-		//***************
-
-	 //respond to zoom changes
-	 google.maps.event.addListener(map, 'zoom_changed', function() {
-		 document.getElementById('zoom').innerHTML= "Zoom: " + map.getZoom().toString();
-	});
+	//***************
+	//create a listeners to respond to movements
+	//***************
 	 //respond to change of bounds, triggers many times for every movement, use only if you
 	 //need live updates such as the centre marker moving with the map
 	 google.maps.event.addListener(map, 'bounds_changed', function() {
@@ -52,19 +47,17 @@
 						 showMarkers();
 					 });
 
-    </script>
-		<script src ="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap"></script> -->
-		<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&libraries=visualization&callback=initMap"></script>
-
-		<input id='deletebutton' type='button' value='Delete'/>
-		<input id='clearbutton' type='button' value='Clear'/>
-		<input id='showbutton' type='button' value='Show'/>
-		<p id='centre'> </p>
-		<p id='zoom'> </p>
-		<p id='bounds'> </p>
+</script>
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAs-DyhJC0oWpOtsZve160KuQbGCZfO9ME&callback=initMap">
+</script>
+<input id='deletebutton' type='button' value='Delete'/>
+<input id='clearbutton' type='button' value='Clear'/>
+<input id='showbutton' type='button' value='Show'/>
+<p id='centre'> </p>
+<p id='zoom'> </p>
+<p id='bounds'> </p>
 
 
 
-		</body>
+</body>
 </html>
