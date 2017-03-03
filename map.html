@@ -12,6 +12,7 @@ width: 100%;
 </head>
 
 <body>
+<input type="text" id="postcode"  ><button> onclick="reCenter(document.getElementById('postcode').innerHTML)"> Search</button>
 <div id="map"></div>
 <script>
 function initMap() {
@@ -21,12 +22,15 @@ function initMap() {
 //declare variables and init the map
 //****************
 var centre = {lat: 57.211858014114874, lng: -2.371576160391222};
+var updateCentre = new google.maps.LatLng({lat:lat, lng:lng1});
 var map = new google.maps.Map(document.getElementById('map'), {zoom:10 , center: centre});
 var centremarker = new google.maps.Marker({
 position: centre,
 map: map,
 title: 'Centre'
 });
+var geocoder = new goolge.map.Geocoder();
+var postcode = 
 
 //***************
 //create a listeners to respond to movements
