@@ -35,6 +35,7 @@ title: 'Centre'
 });
 document.getElementByID("postbutton").onclick = function(){
 address = document.getElementByID("postcode").value;
+document.getElementById('zoom').innerHTML= address;
 //geocoder.geocode({ 'address': address }, function (results, status) {
 //if (status == google.maps.GeocoderStatus.OK) {
 //lat = results[0].geometry.location.lat();
@@ -66,10 +67,9 @@ google.maps.event.addListener(map, 'bounds_changed', function() {
 	document.getElementById('centre').innerHTML= "Centre: " + lat1 + ', '
 		+ lng1;
 	});
-function reCenter(){
-	document.getElementById('zoom').innerHTML= address;
-}
-}
+	}
+
+
 }
 
 </script>
